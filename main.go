@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +15,16 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "hello World!")
 	})
+
+	// 通过Context的Params方法来获取API参数 :精确匹配  *匹配所有
+	r.GET("/user/:name/*action", func(c *gin.Context) {
+		name := c.Param("name")
+		action := c.Param("action")
+		//截取/
+		action = strings.Trim(action, "/")
+		c.String(http.StatusOK, name+" is "+action)
+	})
+
 	// 3.监听端口，默认在8080
 	// Run("里面不指定端口号默认为8080")
 	r.Run(":8000")
