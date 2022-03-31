@@ -10,9 +10,10 @@ func main() {
 	// 从ini文件获取配置信息
 	cfg, err := ini.Load("conf/config.ini")
 	if err != nil {
-		panic("setting.Setup, fail to parse 'conf/app.ini'")
+		panic("fail to parse 'conf/app.ini'")
 	}
 	Port := cfg.Section("server").Key("HttpPort").String()
+
 	//db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	//if err != nil {
 	//	panic("init error")
