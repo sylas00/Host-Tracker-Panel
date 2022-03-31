@@ -24,7 +24,14 @@ func main() {
 		action = strings.Trim(action, "/")
 		c.String(http.StatusOK, name+" is "+action)
 	})
+	r.GET("/hello", func(c *gin.Context) {
+		a := c.Query("a")
+		b := c.Query("b")
+		z := c.DefaultQuery("z", "zz")
+		c.String(http.StatusOK, "a， b,z查询参数是: "+a+"  "+b+"  "+z)
+	})
 
+	//查询参数
 	// 3.监听端口，默认在8080
 	// Run("里面不指定端口号默认为8080")
 	r.Run(":8000")
