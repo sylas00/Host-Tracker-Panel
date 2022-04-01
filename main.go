@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Gin_web/models"
 	"Gin_web/routers"
 	"fmt"
 	"gopkg.in/ini.v1"
@@ -14,11 +15,8 @@ func main() {
 	}
 	Port := cfg.Section("server").Key("HttpPort").String()
 
-	//db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-	//if err != nil {
-	//	panic("init error")
-	//}
-	//db.AutoMigrate(&models.Model{})
+	//初始化DB
+	models.InitDB()
 
 	r := routers.SetupRouter()
 	//3.监听端口，默认在8080
