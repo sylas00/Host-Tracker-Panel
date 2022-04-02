@@ -22,12 +22,16 @@ type User struct {
 
 // CreateUser 注册用户
 func CreateUser(c *gin.Context) {
+	//验证json数据
 	var user User
 	if c.BindJSON(&user) == nil {
-		exist := models.DB.Where("username = ?", user.Username).First(&models.User{}).Row()
+		// 查询用户名是否已经存在
+		exist := models.DB.Where("username = ?", user.Username).First(&models.User{})
 		if exist == nil {
+			//创建用户
 			user := models.User{Username: user.Username, Password: user.Password}
 			result := models.DB.Create(&user)
+			//判断是否创建成功
 			if result.Error != nil {
 				c.JSON(200, gin.H{"status": "失败"})
 			} else {
@@ -40,10 +44,13 @@ func CreateUser(c *gin.Context) {
 
 }
 
-//todo 写入问题 db
-
 func DeleteUser(c *gin.Context) {
-
+	userId := c.Param("userId")
+	if models.DB.Delete(&models.User{}, userId).RowsAffected == 0 {
+		c.JSON(200, gin.H{"status": "没有该用户"})
+	} else {
+		c.JSON(200, gin.H{"status": "删除成功"})
+	}
 }
 
 func UpdateUser(c *gin.Context) {
