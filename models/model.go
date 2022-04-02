@@ -1,9 +1,7 @@
 package models
 
 import (
-	"Gin_web/conf"
-	"fmt"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -13,12 +11,18 @@ var DB *gorm.DB
 
 func InitDB() {
 	var err error
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		conf.DatabaseConf.User,
-		conf.DatabaseConf.Password,
-		conf.DatabaseConf.Host,
-		conf.DatabaseConf.Name)
-	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	// sqlite
+	DB, err = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+
+	// mysql
+	//dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	//	conf.DatabaseConf.User,
+	//	conf.DatabaseConf.Password,
+	//	conf.DatabaseConf.Host,
+	//	conf.DatabaseConf.Name)
+	//DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
 	if err != nil {
 		panic("init error")
 	}

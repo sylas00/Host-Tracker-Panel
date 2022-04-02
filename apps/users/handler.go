@@ -2,7 +2,6 @@ package users
 
 import (
 	"Gin_web/models"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -21,10 +20,12 @@ func CreateUser(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 	user := models.User{Username: username, Password: password}
-	result := models.DB.Create(user)
-	fmt.Println(result.Error)
+	models.DB.Create(user)
+	//fmt.Println(result.Error)
 	c.String(http.StatusOK, "创建用户%s成功", user.Username)
 }
+
+//todo 写入问题 db
 
 func DeleteUser(c *gin.Context) {
 
