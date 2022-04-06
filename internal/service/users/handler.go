@@ -1,14 +1,19 @@
 package users
 
 import (
-	"Gin_web/models"
+	"Gin_web/internal/dao"
+	models2 "Gin_web/internal/models"
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
+var userModel models2.User
+
 func FindUser(c *gin.Context) {
-	userid := c.Param("userid")
-	c.String(http.StatusOK, "%s", userid)
+	userId := c.Param("userId")
+	user := dao.DB.First(&userModel, userId)
+	fmt.Println(user)
+
 }
 
 func FindUsers(c *gin.Context) {
@@ -26,11 +31,11 @@ func CreateUser(c *gin.Context) {
 	var user User
 	if c.BindJSON(&user) == nil {
 		// 查询用户名是否已经存在
-		exist := models.DB.Where("username = ?", user.Username).First(&models.User{})
+		exist := dao.DB.Where("username = ?", user.Username).First(&userModel)
 		if exist == nil {
 			//创建用户
-			user := models.User{Username: user.Username, Password: user.Password}
-			result := models.DB.Create(&user)
+			user := models2.User{Username: user.Username, Password: user.Password}
+			result := dao.DB.Create(&user)
 			//判断是否创建成功
 			if result.Error != nil {
 				c.JSON(200, gin.H{"status": "失败"})
@@ -46,7 +51,7 @@ func CreateUser(c *gin.Context) {
 
 func DeleteUser(c *gin.Context) {
 	userId := c.Param("userId")
-	if models.DB.Delete(&models.User{}, userId).RowsAffected == 0 {
+	if dao.DB.Delete(&userModel, userId).RowsAffected == 0 {
 		c.JSON(200, gin.H{"status": "没有该用户"})
 	} else {
 		c.JSON(200, gin.H{"status": "删除成功"})

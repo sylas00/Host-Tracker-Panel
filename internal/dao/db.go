@@ -1,6 +1,7 @@
-package models
+package dao
 
 import (
+	"Gin_web/internal/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -17,17 +18,17 @@ func InitDB() {
 
 	// mysql
 	//dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
-	//	conf.DatabaseConf.User,
-	//	conf.DatabaseConf.Password,
-	//	conf.DatabaseConf.Host,
-	//	conf.DatabaseConf.Name)
+	//	configs.DatabaseConf.User,
+	//	configs.DatabaseConf.Password,
+	//	configs.DatabaseConf.Host,
+	//	configs.DatabaseConf.Name)
 	//DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic("init error")
 	}
 	// 自动迁移
-	dbErr := DB.AutoMigrate(&User{})
+	dbErr := DB.AutoMigrate(&models.User{})
 
 	if dbErr != nil {
 		panic(nil)

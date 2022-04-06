@@ -1,7 +1,7 @@
 package hosts
 
 import (
-	"Gin_web/models"
+	"Gin_web/internal/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

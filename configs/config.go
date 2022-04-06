@@ -1,4 +1,4 @@
-package conf
+package configs
 
 import (
 	"gopkg.in/ini.v1"
@@ -29,9 +29,9 @@ var cfg *ini.File
 func InitConfig() {
 	// 从ini文件获取配置信息
 	var err error
-	cfg, err = ini.Load("conf/config.ini")
+	cfg, err = ini.Load("configs/config.ini")
 	if err != nil {
-		panic("fail to parse 'conf/app.ini'")
+		panic("fail to parse 'configs/app.ini'")
 	}
 	//取单个配置项
 	//Port := cfg.Section("server").Key("HttpPort").String()
